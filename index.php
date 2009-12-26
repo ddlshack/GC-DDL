@@ -47,5 +47,4 @@ $template->pparse('head');
 $template->pparse('sidebar');
 $template->pparse('body');
 $template->pparse('foot');
-ob_end_flush();
 ?>
