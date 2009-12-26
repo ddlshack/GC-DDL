@@ -29,6 +29,10 @@ if($includes) {
         }
     }
     closedir($includes);
+} else {
+    header("Location: install/");
+    echo '<a href"install">Click here to start the installation.</a>';
+	die;
 }
 
 // We now get all of the config stuff... and put them into
@@ -40,7 +44,8 @@ if (mysql_num_rows($getconfig) > 0) {
     }
 } else {
     header("Location: install/");
-    die;
+    echo '<a href"install">Click here to start the installation.</a>';
+	die;
 }
 // Start up the phpBB2 Template Engine
 $template = new Template($dir.'/templates/default/');

@@ -25,7 +25,7 @@ while ($cat1 = mysql_fetch_assoc($categories)) {
 result($template,'RESULT','Please be sure to follow the rules... or it might end up in your site being blacklisted.',null);
 
 if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['type'][0]) && isset($_POST['surl']) && isset($_POST['email']) && isset($_POST['sname'])) {
-    $surl = murl($_POST['surl'],false);
+    $surl = $_POST['surl'];
     if ($surl != false) {
         $siteexists = mysql_query('select id from gc_ddl_sites where surl="'.htmlentities(addslashes($surl)).'"');
         $sname = $_POST['sname'];
@@ -45,21 +45,25 @@ if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['typ
         $founddupes = false;
         for ($i=0;$i<10;$i++) {
             if (($urlmismatch == false && $insertingerror == false && $founddupes == false) && (!empty($title[$i]) && !empty($url[$i]) && !empty($type[$i])) && isset($catss[$type[$i]])) {
-                if (murl($url[$i],false) == $surl) {
+                if (murl($surl,false) == murl($url[$i],false)) {
                     if ($SETTINGS['allow_dupes'] == 1) {
-                        mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes(murl($url[$i],true))).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(eval('$insertingerror = true;'));
+						if (!mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes($url[$i])).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")')) {
+							$insertingerror = true;
+						}
                     } else {
                         $timelimit = mktime(0, 0, 0, date('m') , date('d') - ($SETTINGS['allow_dupes_every_when']*7), date('Y'));
-                        $dupesexist1 = mysql_query('select id from gc_ddl_queued where url = "'.htmlentities(addslashes(murl($url[$i],true))).'" and date > "'.$timelimit.'" limit 1') or die (eval('$insertingerror = true;'));
-                        $dupesexist2 = mysql_query('select id from gc_ddl_downloads where url = "'.htmlentities(addslashes(murl($url[$i],true))).'" and date > "'.$timelimit.'" limit 1') or die (eval('$insertingerror = true;'));
+						$dupesexist1 = mysql_query('select id from gc_ddl_queued where url = "'.htmlentities(addslashes($url[$i])).'" and date > "'.$timelimit.'" limit 1');
+						$dupesexist2 = mysql_query('select id from gc_ddl_downloads where url = "'.htmlentities(addslashes($url[$i])).'" and date > "'.$timelimit.'" limit 1');
+						if (!$dupesexist1 || !$dupesexist2) {
+							$insertingerror = true;
+						}
                         if (mysql_num_rows($dupesexist1) == 0 && mysql_num_rows($dupesexist2) == 0) {
-                            mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes(murl($url[$i],true))).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
+                            mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes($url[$i])).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
                         } else {
                             $founddupes = true;
                             result($template,'RESULT','The administrator has disabled the submission of duplicate downloads.','#F00');
                         }
                     }
-                    
                 } else {
                     $urlmismatch = true;
                     result($template,'RESULT','Your site URL and the URL of your downloads do not match.','#F00');
