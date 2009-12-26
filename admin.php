@@ -79,7 +79,8 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
                 $template->set_filenames(array(
                     'body' => 'admin/'.$adminpages[$pagefileaaa]['file'],
                 ));
-                eval('admin_'.$pagefileaaa.'($template);');
+                $funcname='admin_'.$pagefileaaa
+                "admin_{$pagefileaaa}"($template);
             } else {
                 $template->set_filenames(array(
                     'body' => 'admin/admin_home.tpl',
@@ -107,5 +108,4 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
     $template->pparse('body');
     $template->pparse('foot');
 }
-ob_end_flush();
 ?>
