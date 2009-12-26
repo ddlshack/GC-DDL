@@ -11,12 +11,12 @@ function admin_edit_categories(&$template) {
     ));
     
     if (isset($_POST['acsb'])) {
-        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE cat_slug LIKE "'.strtolower(htmlentities(addslashes($_POST['acs']))).'" OR cat_name LIKE "'.htmlentities(addslashes($_POST['acfn'])).'" LIMIT 1');
+        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE cat_slug LIKE "'.mysql_real_escape_string($_POST['acs']).'" OR cat_name LIKE "'.mysql_real_escape_string($_POST['acfn']).'" LIMIT 1');
         if (mysql_num_rows($exists) == 0) {
             $cati = mysql_fetch_assoc($exists);
             if ($_POST['acfn'] == strip_tags($_POST['acfn']) && $_POST['acs'] == strip_tags($_POST['acs'])) {
                 $error = false;
-                if (!mysql_query('INSERT INTO gc_ddl_categories (cat_slug,cat_name) VALUES ("'.strtolower(htmlentities(addslashes($_POST['acs']))).'","'.htmlentities(addslashes($_POST['acfn'])).'")')) {
+                if (!mysql_query('INSERT INTO gc_ddl_categories (cat_slug,cat_name) VALUES ("'.mysql_real_escape_string($_POST['acs']).'","'.mysql_real_escape_string($_POST['acfn']).'")')) {
 					$error = true;
 				}
 				if ($error == false) {

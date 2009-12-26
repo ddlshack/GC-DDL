@@ -13,18 +13,17 @@ function admin_edit_config(&$template) {
         $error = false;
         foreach ($_POST as $key => $val) {
             if ($val[1] == 'string') {
-                $val[0] = htmlentities(strip_tags($val[0]));
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             } elseif ($val[1] == 'integer') {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             } else {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             }
@@ -44,18 +43,18 @@ function admin_edit_config(&$template) {
     if (mysql_num_rows($getconfigs) > 0) {
         while ($cfgr = mysql_fetch_assoc($getconfigs)) {
             $template->assign_block_vars('cfgtbl', array(
-                'GNAME' => str_replace('_',' ',stripslashes(ucfirst($cfgr['name']))),
-                'NAME' => stripslashes($cfgr['name']),
-                'DESC' => stripslashes($cfgr['desc']),
+                'GNAME' => str_replace('_',' ',ucfirst($cfgr['name'])),
+                'NAME' => $cfgr['name'],
+                'DESC' => $cfgr['desc'],
             ));
             if ($cfgr['possible'] == null) {
                 $template->assign_block_vars('cfgtbl.string', array(
-                    'VALUE' => stripslashes(unserialize($cfgr['value'])),
+                    'VALUE' => unserialize($cfgr['value']),
                     'TYPE' => 'string'
                 ));
             } elseif ($cfgr['possible'] == 'integer') {
                 $template->assign_block_vars('cfgtbl.string', array(
-                    'VALUE' => stripslashes(unserialize($cfgr['value'])),
+                    'VALUE' => unserialize($cfgr['value']),
                     'TYPE' => 'integer'
                 ));
             } else {
@@ -65,9 +64,9 @@ function admin_edit_config(&$template) {
                 $possiblevals = unserialize($cfgr['possible']);
                 foreach ($possiblevals as $val => $fval) {
                     $template->assign_block_vars('cfgtbl.select.option', array(
-                        'VALUE' => stripslashes($val),
-                        'VTEXT' => stripslashes($fval),
-                        'SELECTED' => ($val == stripslashes(unserialize($cfgr['value']))) ? 'selected="selected"' : ''
+                        'VALUE' => $val,
+                        'VTEXT' => $fval,
+                        'SELECTED' => $val == unserialize($cfgr['value']) ? 'selected="selected"' : ''
                     ));
                 }
             }
