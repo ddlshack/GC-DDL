@@ -49,7 +49,7 @@ if($includes) {
 
 // We now get all of the config stuff... and put them into
 // a variable
-$getconfig = mysql_query('select name,value from gc_ddl_config');
+$getconfig = mysql_query('SELECT name,value FROM gc_ddl_config');
 if (mysql_num_rows($getconfig) > 0) {
     while ($cfg = mysql_fetch_assoc($getconfig)) {
         $SETTINGS[$cfg['name']] = unserialize($cfg['value']);
