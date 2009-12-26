@@ -29,22 +29,27 @@ function checkAll(theForm, cName, status) {
 				</td>
 			</tr>
 			<!-- BEGIN queued_downloads -->
+				<tr>
+					<td style="border-bottom: 2px #454545 dashed; text-align: center;">
+						{queued_downloads.TYPE}
+					</td>
+					<td style="border-bottom: 2px #454545 dashed;">
+						<a href="{queued_downloads.URL}">{queued_downloads.TITLE}</a>
+					</td>
+					<td style="border-bottom: 2px #454545 dashed; text-align: center;">
+						<a href="{queued_downloads.SURL}">{queued_downloads.SNAME}</a>
+					</td>
+					<td style="border-bottom: 2px #454545 dashed; text-align: center;">
+						<input type="checkbox" name="action[]" value="{queued_downloads.ID}" class="{queued_downloads.SID}" />
+						{queued_downloads.SELECTALL}
+					</td>
+				</tr>
+			<!-- END queued_downloads -->
 			<tr>
-				<td style="border-bottom: 2px #454545 dashed; text-align: center;">
-					{queued_downloads.TYPE}
-				</td>
-				<td style="border-bottom: 2px #454545 dashed;">
-					<a href="{queued_downloads.URL}">{queued_downloads.TITLE}</a>
-				</td>
-				<td style="border-bottom: 2px #454545 dashed; text-align: center;">
-					<a href="{queued_downloads.SURL}">{queued_downloads.SNAME}</a>
-				</td>
-				<td style="border-bottom: 2px #454545 dashed; text-align: center;">
-					<input type="checkbox" name="action[]" value="{queued_downloads.ID}" class="{queued_downloads.SID}" />
-					{queued_downloads.SELECTALL}
+				<td colspan="4" style="border-bottom: 2px #454545 dashed; text-align: center;">
+					What to do with the selected downloads? :<input type="submit" name="accept" value="Accept" /> | <input type="submit" name="delete" value="Delete" />
 				</td>
 			</tr>
-			<!-- END queued_downloads -->
 		</table>
 	</form>
 </div>
