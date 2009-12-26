@@ -14,17 +14,17 @@ function admin_edit_config(&$template) {
         foreach ($_POST as $key => $val) {
             if ($val[1] == 'string') {
                 $val[0] = htmlentities(strip_tags($val[0]));
-                if(!mysql_query('update gc_ddl_config set value = "'.addslashes(serialize($val[0])).'" where name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
                     $error = true;
                 }
             } elseif ($val[1] == 'integer') {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('update gc_ddl_config set value = "'.addslashes(serialize($val[0])).'" where name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
                     $error = true;
                 }
             } else {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('update gc_ddl_config set value = "'.addslashes(serialize($val[0])).'" where name = "'. htmlentities(addslashes($key)) .'"')) {
+                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.addslashes(serialize($val[0])).'" WHERE name = "'. htmlentities(addslashes($key)) .'"')) {
                     $error = true;
                 }
             }
@@ -40,7 +40,7 @@ function admin_edit_config(&$template) {
             ));
         }
     }
-    $getconfigs = mysql_query('select * from gc_ddl_config');
+    $getconfigs = mysql_query('SELECT * FROM gc_ddl_config');
     if (mysql_num_rows($getconfigs) > 0) {
         while ($cfgr = mysql_fetch_assoc($getconfigs)) {
             $template->assign_block_vars('cfgtbl', array(

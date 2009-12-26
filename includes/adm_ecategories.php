@@ -11,13 +11,15 @@ function admin_edit_categories(&$template) {
     ));
     
     if (isset($_POST['acsb'])) {
-        $exists = mysql_query('select * from gc_ddl_categories where cat_slug LIKE "'.strtolower(htmlentities(addslashes($_POST['acs']))).'" OR cat_name LIKE "'.htmlentities(addslashes($_POST['acfn'])).'" limit 1');
+        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE cat_slug LIKE "'.strtolower(htmlentities(addslashes($_POST['acs']))).'" OR cat_name LIKE "'.htmlentities(addslashes($_POST['acfn'])).'" LIMIT 1');
         if (mysql_num_rows($exists) == 0) {
             $cati = mysql_fetch_assoc($exists);
             if ($_POST['acfn'] == strip_tags($_POST['acfn']) && $_POST['acs'] == strip_tags($_POST['acs'])) {
                 $error = false;
-                mysql_query('insert into gc_ddl_categories (cat_slug,cat_name) VALUES ("'.strtolower(htmlentities(addslashes($_POST['acs']))).'","'.htmlentities(addslashes($_POST['acfn'])).'")') or die(eval('$error = true;'));
-                if ($error == false) {
+                if (!mysql_query('INSERT INTO gc_ddl_categories (cat_slug,cat_name) VALUES ("'.strtolower(htmlentities(addslashes($_POST['acs']))).'","'.htmlentities(addslashes($_POST['acfn'])).'")')) {
+					$error = true;
+				}
+				if ($error == false) {
                     $template->assign_vars(array(
                         'RESULT' => '<span style="color: #0F0;">That category has been added successfully. Click <a href="admin.php?p=edit_categories">here</a> if the page does not refresh.</span>',
                         'METAREDIRECT' => '<meta http-equiv="refresh" content="5;url=admin.php?p=edit_categories" />'
@@ -46,12 +48,14 @@ function admin_edit_categories(&$template) {
     }
     
     if (isset($_GET['delete'])) {
-        $exists = mysql_query('select * from gc_ddl_categories where id="'.($_GET['delete']+1-1).'" limit 1');
+        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE id="'.intval($_GET['delete']).'" LIMIT 1');
         if (mysql_num_rows($exists) == 1) {
             $error = false;
-            mysql_query('delete from gc_ddl_categories where id = "'.$_GET['delete'].'"') or die(eval('$error = true;'));
-            mysql_query('delete from gc_ddl_downloads where cat = "'.$_GET['delete'].'"') or die(eval('$error = true;'));
-            if ($error == false)
+            if (!mysql_query('DELETE FROM gc_ddl_categories WERE id = "'.$_GET['delete'].'"') || 
+			!mysql_query('DELETE FROM gc_ddl_downloads WHERE cat = "'.$_GET['delete'].'"')) {
+				$error = true;
+			}
+			if ($error == false)
             {
                 $template->assign_vars(array(
                     'RESULT' => '<span style="color: #0F0;">That category has been deleted. Click <a href="admin.php?p=edit_categories">here</a> if the page does not refresh.</span>',
@@ -74,7 +78,7 @@ function admin_edit_categories(&$template) {
     }
     
     if (isset($_GET['edit'])) {
-        $exists = mysql_query('select * from gc_ddl_categories where id="'.($_GET['edit']+1-1).'" limit 2');
+        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE id="'.($_GET['edit']+1-1).'" LIMIT 2');
         if (mysql_num_rows($exists) == 1) {
             $cati = mysql_fetch_assoc($exists);
             if (!isset($_POST['ecsb'])) {
@@ -87,7 +91,9 @@ function admin_edit_categories(&$template) {
             {
                 if ($_POST['ecfn'] == strip_tags($_POST['ecfn']) && $_POST['ecs'] == strip_tags($_POST['ecs'])) {
                     $error = false;
-                    mysql_query('update gc_ddl_categories set cat_slug = "'.strtolower(htmlentities(addslashes($_POST['ecs']))).'", cat_name = "'.htmlentities(addslashes($_POST['ecfn'])).'" where id="'.$_GET['edit'].'"') or die(eval('$error = true;'));
+                    if (!mysql_query('UPDATE gc_ddl_categories SET cat_slug = "'.strtolower(htmlentities(addslashes($_POST['ecs']))).'", cat_name = "'.htmlentities(addslashes($_POST['ecfn'])).'" WHERE id="'.$_GET['edit'].'"')) {
+						$error = true;
+					}
                     if ($error == false) {
                         $template->assign_vars(array(
                             'RESULT' => '<span style="color: #0F0;">That category has been edited successfully. Click <a href="admin.php?p=edit_categories">here</a> if the page does not refresh.</span>',
@@ -120,7 +126,7 @@ function admin_edit_categories(&$template) {
     
     
     
-    $getcats = mysql_query('select * from gc_ddl_categories');
+    $getcats = mysql_query('SELECT * FROM gc_ddl_categories');
     if (mysql_num_rows($getcats) > 0) {
         while ($cat = mysql_fetch_assoc($getcats)) {
             $template->assign_block_vars('cats', array(
