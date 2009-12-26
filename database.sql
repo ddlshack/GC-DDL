@@ -14,8 +14,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `gc_ddl_categories`;
 CREATE TABLE `gc_ddl_categories` (
   `id` int(11) NOT NULL auto_increment,
-  `cat_slug` varchar(255) NOT NULL,
-  `cat_name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 

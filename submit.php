@@ -1,5 +1,5 @@
 <?php
-include 'funcs.php';
+require_once 'funcs.php';
 
 $template->set_filenames(array(
 	'head' => 'body_header.tpl',
@@ -9,10 +9,10 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => stripslashes($SETTINGS['sitename']) . ' - Submit',
-    'SLOGAN' => stripslashes($SETTINGS['slogan']),
-    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
+    'SITENAME' => $SETTINGS['sitename'] . ' - Submit',
+    'SLOGAN' => $SETTINGS['slogan'],
+    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
 
 $categories = mysql_query('select id,cat_name,cat_slug from gc_ddl_categories');
@@ -27,11 +27,11 @@ result($template,'RESULT','Please be sure to follow the rules... or it might end
 if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['type'][0]) && isset($_POST['surl']) && isset($_POST['email']) && isset($_POST['sname'])) {
     $surl = $_POST['surl'];
     if ($surl != false) {
-        $siteexists = mysql_query('select id from gc_ddl_sites where surl="'.htmlentities(addslashes($surl)).'"');
+        $siteexists = mysql_query('SELECT id FROM gcddl_sites WHERE surl="'.mysql_real_escape_string($surl).'"');
         $sname = $_POST['sname'];
         $email = $_POST['email'];
         if (mysql_num_rows($siteexists) == 0) {
-            mysql_query('insert into gc_ddl_sites (sname,surl,semail,firstsub,lastsub) VALUES ("'.htmlentities(addslashes($sname)).'","'.htmlentities(addslashes($surl)).'","'.htmlentities(addslashes($email)).'","'.time().'","'.time().'")') or die (result($template,'RESULT','There was an error putting your site into the database.','#F00'));
+            mysql_query('INSERT INTO gcddl_sites (sname,surl,semail,firstsub,lastsub) VALUES ("'.mysql_real_escape_string($sname).'","'.mysql_real_escape_string($surl).'","'.mysql_real_escape_string($email).'","'.time().'","'.time().'")') or die (result($template,'RESULT','There was an error putting your site into the database.','#F00'));
             $siteid = mysql_insert_id();
         } else {
             $siteid = mysql_fetch_assoc($siteexists);
@@ -47,18 +47,18 @@ if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['typ
             if (($urlmismatch == false && $insertingerror == false && $founddupes == false) && (!empty($title[$i]) && !empty($url[$i]) && !empty($type[$i])) && isset($catss[$type[$i]])) {
                 if (murl($surl,false) == murl($url[$i],false)) {
                     if ($SETTINGS['allow_dupes'] == 1) {
-						if (!mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes($url[$i])).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")')) {
+						if (!mysql_query('INSERT INTO gcddl_queued (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.mysql_real_escape_string($catss[$type[$i]]).'","'.time().'")')) {
 							$insertingerror = true;
 						}
                     } else {
                         $timelimit = mktime(0, 0, 0, date('m') , date('d') - ($SETTINGS['allow_dupes_every_when']*7), date('Y'));
-						$dupesexist1 = mysql_query('select id from gc_ddl_queued where url = "'.htmlentities(addslashes($url[$i])).'" and date > "'.$timelimit.'" limit 1');
-						$dupesexist2 = mysql_query('select id from gc_ddl_downloads where url = "'.htmlentities(addslashes($url[$i])).'" and date > "'.$timelimit.'" limit 1');
+						$dupesexist1 = mysql_query('SELECT id FROM gcddl_queued WHERE url = "'.mysql_real_escape_string($url[$i]).'" and date > "'.$timelimit.'" limit 1');
+						$dupesexist2 = mysql_query('SELECT id FROM gcddl_downloads WHERE url = "'.mysql_real_escape_string($url[$i]).'" and date > "'.$timelimit.'" limit 1');
 						if (!$dupesexist1 || !$dupesexist2) {
 							$insertingerror = true;
 						}
                         if (mysql_num_rows($dupesexist1) == 0 && mysql_num_rows($dupesexist2) == 0) {
-                            mysql_query('insert into gc_ddl_queued (title,url,sid,cat,date) values ("'.htmlentities(addslashes($title[$i])).'","'.htmlentities(addslashes($url[$i])).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
+                            mysql_query('INSERT INTO gcddl_queued (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
                         } else {
                             $founddupes = true;
                             result($template,'RESULT','The administrator has disabled the submission of duplicate downloads.','#F00');
@@ -99,5 +99,4 @@ $template->pparse('head');
 $template->pparse('sidebar');
 $template->pparse('body');
 $template->pparse('foot');
-ob_end_flush();
 ?>
