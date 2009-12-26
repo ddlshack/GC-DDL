@@ -7,6 +7,18 @@ if (strstr($_SERVER['PHP_SELF'],'funcs.php')) {
     exit;
 }
 
+// Undo Magic Quotes
+function stripslashes_deep(&$value) {
+	$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+}
+
+if(get_magic_quotes_gpc()) {
+	stripslashes_deep($_POST);
+	stripslashes_deep($_GET);
+	stripslashes_deep($_REQUEST);
+	stripslashes_deep($_COOKIE);
+}
+
 $dir = dirname(__FILE__) . '/';
 
 if(file_exists($dir.'config.php')) {
@@ -40,7 +52,7 @@ if($includes) {
 $getconfig = mysql_query('select name,value from gc_ddl_config');
 if (mysql_num_rows($getconfig) > 0) {
     while ($cfg = mysql_fetch_assoc($getconfig)) {
-        $SETTINGS[$cfg['name']] = stripslashes(unserialize($cfg['value']));
+        $SETTINGS[$cfg['name']] = unserialize($cfg['value']);
     }
 } else {
     header("Location: install/");
