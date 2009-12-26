@@ -29,15 +29,15 @@ if(get_magic_quotes_gpc()) {
 
 // Include config file for mysql
 $dir = dirname(__FILE__).'/';
-if(file_exists($dir.'config.php')) {
+if(file_exists($dir.'config.php') && $installed==true) {
     include $dir.'config.php';
 } else {
     header("Location: install/");
     die;
 }
 
-mysql_connect($db[0],$db[1],$db[2]) or die (mysql_error());
-mysql_select_db($db[3]) or die (mysql_error());
+mysql_connect($db[0],$db[1],$db[2] or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
+mysql_select_db($db[3]) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
 
 // We now get all of the config stuff... and put them into
 // a variable
@@ -70,11 +70,11 @@ if(opendir($dir.'includes/')) {
 // Use custom error handling.
 function error_handler($errno, $errstr, $errfile, $errline) {
 	global $SETTINGS;
-	
+		
 	if($SETTINGS['debug_mode']==true) {
-		// Output to browser
+		printf("<br />\n<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br /><br />\n", $errors, $errstr, $errfile, $errline);
 	} else {
-		// Output to log file or email
+		error_log(sprintf("PHP %s:  %s in %s on line %d", $errors, $errstr, $errfile, $errline));
 	}
 }
 set_error_handler('error_handler');
