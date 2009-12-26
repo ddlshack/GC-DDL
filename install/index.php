@@ -12,8 +12,17 @@ switch($_GET['step']) {
 			$error=true;
 		}
 		
-		// Mysql Version
-		/* CHECK MYSQL AND OTHER CRAP HERE */
+		echo "<br />\n<br />\n";
+		
+		// Mysql Check
+		if(!function_exists("mysql_query")) {
+			echo 'Mysql extension not installed!';
+			$error=true;
+		} else {
+			echo 'Mysql extension installed!';
+		}
+		
+		/* CHECK OTHER DEPENDANCIES HERE */
 		
 		// Continue
 		if($error) {
@@ -25,5 +34,6 @@ switch($_GET['step']) {
 		break;
 	
 	case 1:
+	
 		break;
 }

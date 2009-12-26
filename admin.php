@@ -1,5 +1,5 @@
 <?php
-include 'funcs.php';
+require_once 'funcs.php';
 $includes = opendir($dir.'includes/');
 if($includes) {
     while(($file = readdir($includes)) !== false) {
@@ -16,10 +16,10 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => stripslashes($SETTINGS['sitename']).' - Admin',
-    'SLOGAN' => stripslashes($SETTINGS['slogan']),
-    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
+    'SITENAME' => $SETTINGS['sitename'].' - Admin',
+    'SLOGAN' => $SETTINGS['slogan'],
+    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
 
 $_SESSION['tries'] = (isset($_SESSION['tries']) && $_SESSION['tries'] != 0) ? $_SESSION['tries'] : 0;
@@ -36,10 +36,10 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
     if (isset($_POST['submit'])) {
         if ($_SESSION['tries'] < $SETTINGS['login_attempts']) {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                $query = mysql_query('select username,password,is_admin from gc_ddl_users where username="'.htmlentities(addslashes($_POST['username'])).'" AND password="'.htmlentities(addslashes(md5(sha1($_POST['password'])))).'"');
+                $query = mysql_query('SElECT username,password,is_admin FROM gcddl_users WHERE username="'.mysql_real_escape_string($_POST['username']).'" AND password="'.mysql_real_escape_string(md5($_POST['password'])).'"');
                 if (mysql_num_rows($query) == 1) {
                     $_SESSION['tries'] = 0;
-                    $_SESSION['username'] = stripslashes(htmlentities(addslashes($_POST['username'])));
+                    $_SESSION['username'] = $_POST['username'];
                     $_SESSION['is_admin'] = true;
                     $template->assign_vars(array(
                         'MSG' => '<span style="color: #0F0;">Hello '.$_SESSION['username'].', you have logged in successfully. Click <a href="admin.php?p=home">here</a> if you are not re-directed.</span>',
