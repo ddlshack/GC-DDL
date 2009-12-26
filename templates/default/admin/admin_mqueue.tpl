@@ -25,7 +25,10 @@ function checkAll(theForm, cName, status) {
 					<strong>Submitter</strong>
 				</td>
 				<td style="width: 10%; border-bottom: 2px #454545 solid; text-align: center;">
-					<strong>Action | Select All</strong>
+				Select Site
+				</td>
+				<td style="width: 10%; border-bottom: 2px #454545 solid; text-align: center;">
+					<strong>Select Single</strong>
 				</td>
 			</tr>
 			<!-- BEGIN queued_downloads -->
@@ -40,8 +43,10 @@ function checkAll(theForm, cName, status) {
 						<a href="{queued_downloads.SURL}">{queued_downloads.SNAME}</a>
 					</td>
 					<td style="border-bottom: 2px #454545 dashed; text-align: center;">
-						<input type="checkbox" name="action[]" value="{queued_downloads.ID}" class="{queued_downloads.SID}" />
 						{queued_downloads.SELECTALL}
+					</td>
+					<td style="border-bottom: 2px #454545 dashed; text-align: center;">
+						<input type="checkbox" name="action[]" value="{queued_downloads.ID}" class="{queued_downloads.SID}" />
 					</td>
 				</tr>
 			<!-- END queued_downloads -->
