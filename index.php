@@ -1,4 +1,7 @@
 <?php
+# Homepage to our awesome DDL Script
+# Its so awesome that its just oozing awesomeness
+# Its incredibly difficult to contain in fact.
 include 'funcs.php';
 
 $template->set_filenames(array(
