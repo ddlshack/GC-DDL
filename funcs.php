@@ -36,7 +36,7 @@ mysql_select_db($db[3]) or die (mysql_error());
 $includes = opendir($dir.'includes/');
 if($includes) {
     while(($file = readdir($includes)) !== false) {
-        if((substr($file,0,3) == 'fn_' || substr($file,0,6) == 'tmplt_') && substr($file,-4) == '.php') {
+        if((substr($file,0,6) == 'gcddl_' || substr($file,0,6) == 'tmplt_') && substr($file,-4) == '.php') {
                 include $dir.'includes/'.$file;
         }
     }
@@ -61,4 +61,10 @@ if (mysql_num_rows($getconfig) > 0) {
 }
 // Start up the phpBB2 Template Engine
 $template = new Template($dir.'/templates/default/');
+
+// Start up the modules system - maybe move to earlier in execution?
+$modules = new Modules();
+
+// Start up hooks
+$hooks = new Hooks();
 ?>
