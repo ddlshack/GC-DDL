@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/27/trunk/scripts/gc-ddl
+END
+DO NOT USE, STILL IN DEVELOPMENT!
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/DO%20NOT%20USE,%20STILL%20IN%20DEVELOPMENT!
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/LICENSE.txt
+END
+Sources.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/Sources.txt
+END
+database.sql
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/27/trunk/scripts/gc-ddl/database.sql
+END
+WARNING.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/WARNING.txt
+END
+funcs.php
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/funcs.php
+END
+submit.php
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/submit.php
+END
+config.php
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/config.php
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/README.txt
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/.htaccess
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/index.php
+END
+admin.php
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/admin.php
+END

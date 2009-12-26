@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/templates/default/admin
+END
+admin_sidebar.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/templates/default/admin/admin_sidebar.tpl
+END
+admin_ecategories.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/24/trunk/scripts/gc-ddl/templates/default/admin/admin_ecategories.tpl
+END
+admin_econfig.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/templates/default/admin/admin_econfig.tpl
+END
+admin_mqueue.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/templates/default/admin/admin_mqueue.tpl
+END
+admin_login.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/templates/default/admin/admin_login.tpl
+END
+admin_home.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/23/trunk/scripts/gc-ddl/templates/default/admin/admin_home.tpl
+END

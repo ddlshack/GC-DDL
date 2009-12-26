@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/includes
+END
+adm_home.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/includes/adm_home.php
+END
+adm_ecategories.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/includes/adm_ecategories.php
+END
+adm_econfig.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/includes/adm_econfig.php
+END
+fn_template.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/22/trunk/scripts/gc-ddl/includes/fn_template.php
+END
+fn_general.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/26/trunk/scripts/gc-ddl/includes/fn_general.php
+END
+adm_mqueue.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/28/trunk/scripts/gc-ddl/includes/adm_mqueue.php
+END
