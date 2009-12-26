@@ -1,8 +1,8 @@
 <?php
+include 'funcs.php';
 # Homepage to our awesome DDL Script
 # Its so awesome that its just oozing awesomeness
-# Its incredibly difficult to contain in fact.
-include 'funcs.php';
+# ITs incredibly difficult to contain in fact.
 
 $template->set_filenames(array(
 	'head' => 'body_header.tpl',
