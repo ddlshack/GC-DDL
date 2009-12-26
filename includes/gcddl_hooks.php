@@ -16,8 +16,7 @@ class Hooks {
 	var $hooks = array();
 	
 	function register_hook($name, $func) {
-		if(!array_key_exists($name, $this->names)) return;
-		
+		if(!array_key_exists($name, $this->names)) return; // Invalid name
 		$this->hooks[$name][]=$func;
 	}
 	
