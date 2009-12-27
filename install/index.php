@@ -130,8 +130,8 @@ CREATE TABLE `gcddl_downloads` (
   PRIMARY KEY  (`id`)
 );
 
-DROP TABLE IF EXISTS `gcddl_queued`;
-CREATE TABLE `gcddl_queued` (
+DROP TABLE IF EXISTS `gcddl_queue`;
+CREATE TABLE `gcddl_queue` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `url` text NOT NULL,
