@@ -57,7 +57,6 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
 			}
 		}
     }
-
 } else {
 	$page = $_REQUEST['p'];
 	$funcname = 'admin_'.$page;
@@ -82,9 +81,9 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
             'TEXT' => $properties['name'] ? $properties['name'] : ucwords(str_replace('_', ' ', $funcname))
         ));
 	}
-	$template->pparse('sidebar');
 }
 $template->pparse('head');
+$template->pparse('sidebar');
 $template->pparse('body');
 $template->pparse('foot');
 ?>
