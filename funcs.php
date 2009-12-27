@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* This file is here to set up the script with the nesecary dependencies
  * such as mysql, includes, basic security, etc.
  * 
@@ -17,13 +17,13 @@ if (strstr($_SERVER['PHP_SELF'],'funcs.php')) {
 
 // Undo Magic Quotes
 if(get_magic_quotes_gpc()) {
-	function stripslashes_deep(&$value) {
-		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+	function stripslashes_deep($value) {
+		return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
 	}
-	stripslashes_deep($_POST);
-	stripslashes_deep($_GET);
-	stripslashes_deep($_REQUEST);
-	stripslashes_deep($_COOKIE);
+	$_POST = stripslashes_deep($_POST);
+	$_GET = stripslashes_deep($_GET);
+	$_REQUEST = stripslashes_deep($_REQUEST);
+	$_COOKIE = stripslashes_deep($_COOKIE);
 }
 
 
@@ -36,8 +36,8 @@ if(file_exists($dir.'config.php') && $installed==true) {
     die;
 }
 
-mysql_connect($db[0],$db[1],$db[2] or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
-mysql_select_db($db[3]) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
+mysql_connect($db['server'],$db['username'],$db['password']) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
+mysql_select_db($db['database']) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
 
 // We now get all of the config stuff... and put them into
 // a variable
