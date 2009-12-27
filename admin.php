@@ -32,7 +32,6 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
     $template->assign_vars(array(
         'MSG' => 'Use the form below to log into the administration panel.'
     ));
-	print_r($_POST);
     if (isset($_POST['submit'])) {
         if ($_SESSION['tries'] < $SETTINGS['login_attempts']) {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {

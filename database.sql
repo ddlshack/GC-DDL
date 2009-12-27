@@ -1,16 +1,28 @@
 -- ----------------------------
--- Table structure for gcddl_categories
+-- Table structure for `gcddl_categories`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_categories`;
 CREATE TABLE `gcddl_categories` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
+  `cat_slug` varchar(255) NOT NULL,
+  `cat_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 );
 
 -- ----------------------------
--- Table structure for gcddl_config
+-- Records of gcddl_categories
+-- ----------------------------
+INSERT INTO `gcddl_categories` VALUES ('1', 'app', 'Applications');
+INSERT INTO `gcddl_categories` VALUES ('2', 'movie', 'Movies');
+INSERT INTO `gcddl_categories` VALUES ('3', 'music', 'Music');
+INSERT INTO `gcddl_categories` VALUES ('4', 'game', 'Games');
+INSERT INTO `gcddl_categories` VALUES ('5', 'xxx', 'XXX');
+INSERT INTO `gcddl_categories` VALUES ('6', 'tv', 'Television Shows');
+INSERT INTO `gcddl_categories` VALUES ('7', 'ebook', 'eBooks');
+INSERT INTO `gcddl_categories` VALUES ('8', 'other', 'Others');
+
+-- ----------------------------
+-- Table structure for `gcddl_config`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_config`;
 CREATE TABLE `gcddl_config` (
@@ -22,7 +34,7 @@ CREATE TABLE `gcddl_config` (
 );
 
 -- ----------------------------
--- Table structure for gcddl_downloads
+-- Table structure for `gcddl_downloads`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_downloads`;
 CREATE TABLE `gcddl_downloads` (
@@ -37,7 +49,7 @@ CREATE TABLE `gcddl_downloads` (
 );
 
 -- ----------------------------
--- Table structure for gcddl_queued
+-- Table structure for `gcddl_queued`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_queued`;
 CREATE TABLE `gcddl_queued` (
@@ -51,7 +63,7 @@ CREATE TABLE `gcddl_queued` (
 );
 
 -- ----------------------------
--- Table structure for gcddl_sites
+-- Table structure for `gcddl_sites`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_sites`;
 CREATE TABLE `gcddl_sites` (
@@ -65,7 +77,7 @@ CREATE TABLE `gcddl_sites` (
 );
 
 -- ----------------------------
--- Table structure for gcddl_users
+-- Table structure for `gcddl_users`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_users`;
 CREATE TABLE `gcddl_users` (
@@ -77,28 +89,3 @@ CREATE TABLE `gcddl_users` (
   `is_admin` int(1) NOT NULL,
   PRIMARY KEY  (`id`)
 );
-
--- ----------------------------
--- Records 
--- ----------------------------
-/*
-INSERT INTO `gcddl_categories` VALUES ('1', 'app', 'Applications');
-INSERT INTO `gcddl_categories` VALUES ('2', 'movie', 'Movies');
-INSERT INTO `gcddl_categories` VALUES ('3', 'music', 'Music');
-INSERT INTO `gcddl_categories` VALUES ('4', 'game', 'Games');
-INSERT INTO `gcddl_categories` VALUES ('5', 'xxx', 'XXX');
-INSERT INTO `gcddl_categories` VALUES ('6', 'tv', 'Television Shows');
-INSERT INTO `gcddl_categories` VALUES ('7', 'ebook', 'eBooks');
-INSERT INTO `gcddl_categories` VALUES ('8', 'other', 'Others');
-INSERT INTO `gcddl_config` VALUES ('sitename', 's:18:\"File Empire DDL\\\'s\";', 'What is the name of your site?', '');
-INSERT INTO `gcddl_config` VALUES ('slogan', 's:6:\"asdasd\";', 'The slogan or catch phrase of your site.', '');
-INSERT INTO `gcddl_config` VALUES ('description', 's:6:\"sdaasd\";', 'The description of your site.', '');
-INSERT INTO `gcddl_config` VALUES ('keywords', 's:6:\"asdasd\";', 'When people search these terms, they should see your site. Separate by commas.', '');
-INSERT INTO `gcddl_config` VALUES ('downloads_per_page', 'i:1;', 'How many downloads per page do you want to show?', 'integer');
-INSERT INTO `gcddl_config` VALUES ('login_attempts', 'i:10;', 'How many times do you wish to allow an administrator to try logging in before locking them out of the system (via cookie)?', 'integer');
-INSERT INTO `gcddl_config` VALUES ('allow_dupes', 'i:0;', 'Do you want to allow duplicate downloads?', 'a:2:{i:1;s:3:\"Yes\";i:0;s:2:\"No\";}');
-INSERT INTO `gcddl_config` VALUES ('allow_dupes_every_when', 'i:2;', 'Every how many weeks should a person wait to submit the same downloads more than once?', 'a:4:{i:0;s:7:\"Forever\";i:1;s:6:\"1 Week\";i:2;s:7:\"2 Weeks\";i:3;s:7:\"3 Weeks\";}');
-INSERT INTO `gcddl_queued` VALUES ('1', 'test', 'test.ca/asdasd', '1', '1', '1261354099');
-INSERT INTO `gcddl_sites` VALUES ('1', 'sadasddsa', 'test.ca', 'asdasd', '1261354099', '1261354099');
-INSERT INTO `gcddl_users` VALUES ('1', 'test', '68358d5d9cbbf39fe571ba41f26524b6', 'test@test.com', '1259408939', '1');
-*/
