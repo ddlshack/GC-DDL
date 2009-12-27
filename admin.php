@@ -75,11 +75,11 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
     $template->set_filenames(array(
         'sidebar' => 'admin/admin_sidebar.tpl',
     ));
-    
+
     foreach ($adminpages as $funcname => $properties) {
         $template->assign_block_vars('admin_navi',array(
             'HREF' => 'admin.php?p='.urlencode($funcname),
-            'TEXT' => $properties['name'] ? $properties['name'] : ucwords(str_replace('_', ' ', $funcname)),
+            'TEXT' => $properties['name'] ? $properties['name'] : ucwords(str_replace('_', ' ', $funcname))
         ));
 	}
 	$template->pparse('sidebar');
