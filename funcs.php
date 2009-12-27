@@ -42,8 +42,11 @@ if(file_exists($dir.'config.php')) {
 	die;
 }
 
-mysql_connect($db['server'],$db['username'],$db['password']) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
-mysql_select_db($db['database']) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
+if(!mysql_connect($db['server'],$db['username'],$db['password']) or !mysql_select_db($db['database'])) {
+	header("Location: install/");
+    echo '<a href"install">Click here to start the installation.</a>';
+	die;
+}
 
 // We now get all of the config stuff... and put them into
 // a variable

@@ -94,14 +94,13 @@ FILE;
 		
 	case 2:
 		// Create mysql structure
+		$safe=true;
 		require_once "../config.php";
 		mysql_connect($db['server'], $db['username'], $db['password']) or die(mysql_error());
 		mysql_select_db($db['database']) or die(mysql_error());
 		
 		$mysql=<<<MYSQL
--- ----------------------------
--- Table structure for gcddl_categories
--- ----------------------------
+
 DROP TABLE IF EXISTS `gcddl_categories`;
 CREATE TABLE `gcddl_categories` (
   `id` int(11) NOT NULL auto_increment,
@@ -110,9 +109,6 @@ CREATE TABLE `gcddl_categories` (
   PRIMARY KEY  (`id`)
 );
 
--- ----------------------------
--- Table structure for gcddl_config
--- ----------------------------
 DROP TABLE IF EXISTS `gcddl_config`;
 CREATE TABLE `gcddl_config` (
   `name` varchar(255) NOT NULL,
@@ -122,9 +118,6 @@ CREATE TABLE `gcddl_config` (
   PRIMARY KEY  (`name`)
 );
 
--- ----------------------------
--- Table structure for gcddl_downloads
--- ----------------------------
 DROP TABLE IF EXISTS `gcddl_downloads`;
 CREATE TABLE `gcddl_downloads` (
   `id` int(11) NOT NULL auto_increment,
@@ -137,9 +130,6 @@ CREATE TABLE `gcddl_downloads` (
   PRIMARY KEY  (`id`)
 );
 
--- ----------------------------
--- Table structure for gcddl_queued
--- ----------------------------
 DROP TABLE IF EXISTS `gcddl_queued`;
 CREATE TABLE `gcddl_queued` (
   `id` int(11) NOT NULL auto_increment,
@@ -151,9 +141,6 @@ CREATE TABLE `gcddl_queued` (
   PRIMARY KEY  (`id`)
 );
 
--- ----------------------------
--- Table structure for gcddl_sites
--- ----------------------------
 DROP TABLE IF EXISTS `gcddl_sites`;
 CREATE TABLE `gcddl_sites` (
   `id` int(11) NOT NULL auto_increment,
@@ -165,9 +152,6 @@ CREATE TABLE `gcddl_sites` (
   PRIMARY KEY  (`id`)
 );
 
--- ----------------------------
--- Table structure for gcddl_users
--- ----------------------------
 DROP TABLE IF EXISTS `gcddl_users`;
 CREATE TABLE `gcddl_users` (
   `id` int(11) NOT NULL auto_increment,
@@ -179,8 +163,53 @@ CREATE TABLE `gcddl_users` (
   PRIMARY KEY  (`id`)
 );
 MYSQL;
-		mysql_query($mysql);
+		foreach(explode(";", $mysql) as $query) {
+			if(trim($query)) {
+				mysql_query($query) or die(mysql_error());
+			}
+		}
 		
-		echo 'Database structure inserted<br /><a href="?step=3">Continue $raquo;</a>';
+		echo 'Database structure inserted<br /><a href="?step=3">Continue &raquo;</a>';
+		break;
+	
+	case 3:
+		// Collect data from user about site etc.
+		print_r($_POST);
+		if($_POST) {
+			if(empty($POST['sitename']) || empty($POST['slogan']) || empty($POST['siteurl']) || empty($POST['sitepath'])) {
+				echo 'Error: Blank fields<br /><a href="?step=3">&laquo; Try Again</a>';
+			} else {
+				mysql_query("INSERT INTO `gcddl_config` VALUES ('sitename', '".mysql_real_escape_string(serialize($_POST['sitename']))."', 'What is the name of your DDL site?', '')");
+				mysql_query("INSERT INTO `gcddl_config` VALUES ('slogan', '".mysql_real_escape_string(serialize($_POST['slogan']))."', 'What is the slogan of your site?', '')");
+				mysql_query("INSERT INTO `gcddl_config` VALUES ('siteurl', '".mysql_real_escape_string(serialize($_POST['siteurl']))."', 'What is the url to your site, with no leading slash?', '')");
+				mysql_query("INSERT INTO `gcddl_config` VALUES ('sitepath', '".mysql_real_escape_string(serialize($_POST['sitepath']))."', 'What is the path to your sites root directory, with no leading slash?', '')");
+				
+				echo 'Site configured successfully<br /><a href="?step=4">Continue &raquo;</a>';
+			}
+		} else {
+			
+			$dir=dirname(__FILE__);
+			echo 'Please Tell us some information about your site:<br /><br />';
+			echo '<form action="?step=3" method="post">
+			Site Name:
+			<input type="text name="sitename" />
+			<br />
+			
+			Slogan:
+			<input type="text name="slogan" />
+			<br />
+			
+			Site URL:
+			<input type="text name="siteurl" value="'.htmlentities('http://'.($_SERVER['HTTPS']=='on' ? 's' : '').$_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['REQUEST_URI']))).'" />
+			(No trailing slash)<br />
+			
+			Site Path:
+			<input type="text name="sitepath" value="'.htmlentities($dir).'" />
+			(no trailing slash)<br />
+			
+			<input type="submit" value="Continue &raquo;" />
+			
+			</form>';
+		}
 }
 ?>
