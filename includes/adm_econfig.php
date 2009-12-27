@@ -42,34 +42,25 @@ function admin_edit_config(&$template) {
             ));
         }
     }
-    $getconfigs = mysql_query('SELECT * FROM gcddl_config');
-    if (mysql_num_rows($getconfigs) > 0) {
-        while ($cfgr = mysql_fetch_assoc($getconfigs)) {
-            $template->assign_block_vars('cfgtbl', array(
-                'GNAME' => str_replace('_',' ',ucfirst($cfgr['name'])),
-                'NAME' => $cfgr['name'],
-                'DESC' => $cfgr['desc'],
-            ));
-            if ($cfgr['possible']) {
-                $template->assign_block_vars('cfgtbl.string', array(
-                    'VALUE' => unserialize($cfgr['value']),
-                    'TYPE' => 'string'
-                ));
-            } elseif ($cfgr['possible'] == 'integer') {
-                $template->assign_block_vars('cfgtbl.string', array(
-                    'VALUE' => unserialize($cfgr['value']),
-                    'TYPE' => 'integer'
-                ));
+	$getconfigs = mysql_query('SELECT * FROM gcddl_config');
+	if (mysql_num_rows($getconfigs)) {
+		while ($config_var = mysql_fetch_assoc($getconfigs)) {
+			$template->assign_block_vars('cfgtbl', array(
+				'GNAME' => ucwords(str_replace('_',' ',$config_var['name'])),
+				'NAME' => $config_var['name'],
+				'DESC' => $config_var['desc'],
+			));
+			if ($options=unserialize($config_var['possible'])) {
+				$template->assign_block_vars('cfgtbl.string', array(
+					'VALUE' => unserialize($config_var['value'])
+				));
             } else {
-                $template->assign_block_vars('cfgtbl.select', array(
-                    'TYPE' => ''
-                ));
-                $possiblevals = unserialize($cfgr['possible']);
-                foreach ($possiblevals as $val => $fval) {
+                $template->assign_block_vars('cfgtbl.select', array());
+                foreach ($options as $name => $friendly_name) {
                     $template->assign_block_vars('cfgtbl.select.option', array(
-                        'VALUE' => $val,
-                        'VTEXT' => $fval,
-                        'SELECTED' => $val == unserialize($cfgr['value']) ? 'selected="selected"' : ''
+                        'VALUE' => $name,
+                        'VTEXT' => $friendly_name,
+                        'SELECTED' => $name == unserialize($config_var['value'])
                     ));
                 }
             }
