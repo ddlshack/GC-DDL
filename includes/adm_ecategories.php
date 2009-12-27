@@ -3,7 +3,10 @@ if (!$safe) {
     exit;
 }
 
-$adminpages['edit_categories']['file'] = 'admin_ecategories.tpl';
+$adminpages['edit_categories'] = array(
+	'template_file' => 'admin_ecategories.tpl',
+	'name' => 'Edit Categories',
+);
 
 function admin_edit_categories(&$template) {
     $template->assign_vars(array(
