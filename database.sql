@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `gcddl_categories`;
 CREATE TABLE `gcddl_categories` (
   `id` int(11) NOT NULL auto_increment,
-  `cat_slug` varchar(255) NOT NULL,
-  `cat_name` varchar(255) NOT NULL,
+  `shortname` varchar(255) NOT NULL,
+  `displayname` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
@@ -47,15 +47,15 @@ CREATE TABLE `gcddl_config` (
   `desc` text NOT NULL,
   `possible` text NOT NULL,
   PRIMARY KEY  (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_config
 -- ----------------------------
-INSERT INTO `gcddl_config` VALUES ('sitename', 's:15:\"global $config;\";', 'What is the name of your DDL site?', '');
-INSERT INTO `gcddl_config` VALUES ('slogan', 's:49:\"visit our website for modifications and templates\";', 'What is the slogan of your site?', '');
-INSERT INTO `gcddl_config` VALUES ('description', 's:22:\"an advanced ddl script\";', 'Describe your DDL site a bit.', '');
-INSERT INTO `gcddl_config` VALUES ('keywords', 's:11:\"open,source\";', 'List some keywords, so that when people search these, your site will come up easier.', '');
+INSERT INTO `gcddl_config` VALUES ('sitename', 's:15:"global $config;";', 'What is the name of your DDL site?', '');
+INSERT INTO `gcddl_config` VALUES ('slogan', 's:49:"visit our website for modifications and templates";', 'What is the slogan of your site?', '');
+INSERT INTO `gcddl_config` VALUES ('description', 's:22:"an advanced ddl script";', 'Describe your DDL site a bit.', '');
+INSERT INTO `gcddl_config` VALUES ('keywords', 's:11:"open,source";', 'List some keywords, so that when people search these, your site will come up easier.', '');
 
 -- ----------------------------
 -- Table structure for `gcddl_downloads`
@@ -70,7 +70,7 @@ CREATE TABLE `gcddl_downloads` (
   `views` int(11) NOT NULL default '0',
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_downloads
@@ -88,7 +88,7 @@ CREATE TABLE `gcddl_queue` (
   `cat` int(11) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_queue
@@ -106,7 +106,7 @@ CREATE TABLE `gcddl_queued` (
   `cat` int(11) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_queued
@@ -124,7 +124,7 @@ CREATE TABLE `gcddl_sites` (
   `firstsub` int(11) NOT NULL,
   `lastsub` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_sites
@@ -141,8 +141,9 @@ CREATE TABLE `gcddl_users` (
   `email` varchar(255) NOT NULL,
   `reg_date` int(11) NOT NULL,
   `is_admin` int(1) NOT NULL,
+  `activation_key` varchar(10) NOT NULL DEFAULT '', 
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_users
