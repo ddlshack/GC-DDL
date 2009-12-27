@@ -1,19 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : localhost
-Source Server Version : 50024
-Source Host           : localhost:3306
-Source Database       : gc_ddl
-
-Target Server Type    : MYSQL
-Target Server Version : 50024
-File Encoding         : 65001
-
-Date: 2009-12-26 21:43:54
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `gcddl_categories`
 -- ----------------------------
@@ -23,7 +7,7 @@ CREATE TABLE `gcddl_categories` (
   `shortname` varchar(255) NOT NULL,
   `displayname` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records of gcddl_categories
