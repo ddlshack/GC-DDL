@@ -1,13 +1,3 @@
-/*
-MySQL Data Transfer
-Source Host: localhost
-Source Database: gcddl
-Target Host: localhost
-Target Database: gcddl
-Date: 21/12/2009 2:50:51 PM
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for gcddl_categories
 -- ----------------------------
@@ -17,7 +7,7 @@ CREATE TABLE `gcddl_categories` (
   `name` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Table structure for gcddl_config
@@ -29,7 +19,7 @@ CREATE TABLE `gcddl_config` (
   `desc` text NOT NULL,
   `possible` text NOT NULL,
   PRIMARY KEY  (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Table structure for gcddl_downloads
@@ -44,7 +34,7 @@ CREATE TABLE `gcddl_downloads` (
   `views` int(11) NOT NULL default '0',
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Table structure for gcddl_queued
@@ -58,7 +48,7 @@ CREATE TABLE `gcddl_queued` (
   `cat` int(11) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Table structure for gcddl_sites
@@ -67,12 +57,12 @@ DROP TABLE IF EXISTS `gcddl_sites`;
 CREATE TABLE `gcddl_sites` (
   `id` int(11) NOT NULL auto_increment,
   `sname` varchar(255) NOT NULL,
-  `surl` text NOT NULL,
+  `surl` varchar(255) NOT NULL,
   `semail` varchar(255) NOT NULL,
   `firstsub` int(11) NOT NULL,
   `lastsub` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Table structure for gcddl_users
@@ -81,16 +71,17 @@ DROP TABLE IF EXISTS `gcddl_users`;
 CREATE TABLE `gcddl_users` (
   `id` int(11) NOT NULL auto_increment,
   `username` varchar(255) NOT NULL,
-  `password` text NOT NULL,
+  `password` char(32) NOT NULL,
   `email` varchar(255) NOT NULL,
   `reg_date` int(11) NOT NULL,
-  `is_admin` int(8) NOT NULL,
+  `is_admin` int(1) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+);
 
 -- ----------------------------
 -- Records 
 -- ----------------------------
+/*
 INSERT INTO `gcddl_categories` VALUES ('1', 'app', 'Applications');
 INSERT INTO `gcddl_categories` VALUES ('2', 'movie', 'Movies');
 INSERT INTO `gcddl_categories` VALUES ('3', 'music', 'Music');
@@ -110,3 +101,4 @@ INSERT INTO `gcddl_config` VALUES ('allow_dupes_every_when', 'i:2;', 'Every how 
 INSERT INTO `gcddl_queued` VALUES ('1', 'test', 'test.ca/asdasd', '1', '1', '1261354099');
 INSERT INTO `gcddl_sites` VALUES ('1', 'sadasddsa', 'test.ca', 'asdasd', '1261354099', '1261354099');
 INSERT INTO `gcddl_users` VALUES ('1', 'test', '68358d5d9cbbf39fe571ba41f26524b6', 'test@test.com', '1259408939', '1');
+*/

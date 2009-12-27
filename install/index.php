@@ -95,13 +95,92 @@ FILE;
 	case 2:
 		// Create mysql structure
 		require_once "../config.php";
-		mysql_connect($db['server'], $db['username'], $db['password']);
-		mysql_select_db($db['database']);
+		mysql_connect($db['server'], $db['username'], $db['password']) or die(mysql_error());
+		mysql_select_db($db['database']) or die(mysql_error());
 		
-		$fp=fopen('../database.sql', 'r');
-		mysql_query(fgets($fp, filesize('../database.sql')));
-		fclose($fp);
+		$mysql=<<<MYSQL
+-- ----------------------------
+-- Table structure for gcddl_categories
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_categories`;
+CREATE TABLE `gcddl_categories` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+-- ----------------------------
+-- Table structure for gcddl_config
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_config`;
+CREATE TABLE `gcddl_config` (
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  `desc` text NOT NULL,
+  `possible` text NOT NULL,
+  PRIMARY KEY  (`name`)
+);
+
+-- ----------------------------
+-- Table structure for gcddl_downloads
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_downloads`;
+CREATE TABLE `gcddl_downloads` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `url` text NOT NULL,
+  `sid` int(11) NOT NULL,
+  `cat` int(11) NOT NULL,
+  `views` int(11) NOT NULL default '0',
+  `date` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+-- ----------------------------
+-- Table structure for gcddl_queued
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_queued`;
+CREATE TABLE `gcddl_queued` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL,
+  `url` text NOT NULL,
+  `sid` int(11) NOT NULL,
+  `cat` int(11) NOT NULL,
+  `date` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+-- ----------------------------
+-- Table structure for gcddl_sites
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_sites`;
+CREATE TABLE `gcddl_sites` (
+  `id` int(11) NOT NULL auto_increment,
+  `sname` varchar(255) NOT NULL,
+  `surl` varchar(255) NOT NULL,
+  `semail` varchar(255) NOT NULL,
+  `firstsub` int(11) NOT NULL,
+  `lastsub` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+-- ----------------------------
+-- Table structure for gcddl_users
+-- ----------------------------
+DROP TABLE IF EXISTS `gcddl_users`;
+CREATE TABLE `gcddl_users` (
+  `id` int(11) NOT NULL auto_increment,
+  `username` varchar(255) NOT NULL,
+  `password` char(32) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `reg_date` int(11) NOT NULL,
+  `is_admin` int(1) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+MYSQL;
+		mysql_query($mysql);
 		
 		echo 'Database structure inserted<br /><a href="?step=3">Continue $raquo;</a>';
-		break;
 }
+?>
