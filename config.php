@@ -6,7 +6,7 @@ $installed = true;
 $db = array (
   'server' => 'localhost',
   'username' => 'root',
-  'password' => '',
-  'database' => 'gc_ddl',
+  'password' => '2PEqmD4jrytJec3e',
+  'database' => 'gcddl',
 );
 ?>

@@ -133,7 +133,7 @@ function admin_edit_categories(&$template) {
     if (mysql_num_rows($getcats) > 0) {
         while ($cat = mysql_fetch_assoc($getcats)) {
             $template->assign_block_vars('cats', array(
-                'NAME' => stripslashes($cat['cat_name']),
+                'NAME' => $cat['cat_name'],
                 'ID' => $cat['id']
             ));
         }

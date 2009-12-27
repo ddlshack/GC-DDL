@@ -15,30 +15,18 @@ function admin_edit_config(&$template) {
     if ($_POST) {
         $error = false;
         foreach ($_POST as $key => $val) {
-            if ($val[1] == 'string') {
-                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
-                    $error = true;
-                }
-            } elseif ($val[1] == 'integer') {
-                $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
-                    $error = true;
-                }
-            } else {
-                $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
-                    $error = true;
-                }
-            }
+			if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val)).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
+				$error = true;
+			}
         }
-        if ($error == false) {
+        if ($error) {
             $template->assign_vars(array(
-                'RESULT' => '<span style="color: #0F0;">The settings were successfully changed. Click <a href="admin.php?p=edit_config">here</a> if the page does not automatically refresh.</span>',
-                'METAREDIRECT' => '<meta http-equiv="refresh" content="5;url=admin.php?p=edit_config" />'
+                'RESULT' => mysql_error()
             ));
         } else {
             $template->assign_vars(array(
-                'RESULT' => mysql_error()
+                'RESULT' => '<span style="color: #0F0;">The settings were successfully changed. Click <a href="admin.php?p=edit_config">here</a> if the page does not automatically refresh.</span>',
+                'METAREDIRECT' => '<meta http-equiv="refresh" content="5;url=admin.php?p=edit_config" />'
             ));
         }
     }
@@ -51,10 +39,6 @@ function admin_edit_config(&$template) {
 				'DESC' => $config_var['desc'],
 			));
 			if ($options=unserialize($config_var['possible'])) {
-				$template->assign_block_vars('cfgtbl.string', array(
-					'VALUE' => unserialize($config_var['value'])
-				));
-            } else {
                 $template->assign_block_vars('cfgtbl.select', array());
                 foreach ($options as $name => $friendly_name) {
                     $template->assign_block_vars('cfgtbl.select.option', array(
@@ -63,6 +47,10 @@ function admin_edit_config(&$template) {
                         'SELECTED' => $name == unserialize($config_var['value'])
                     ));
                 }
+            } else {
+				$template->assign_block_vars('cfgtbl.string', array(
+					'VALUE' => unserialize($config_var['value'])
+				));
             }
         }
     }
