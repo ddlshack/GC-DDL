@@ -1,6 +1,6 @@
 <?php
 require_once 'funcs.php';
-if(opendir($dir.'includes/') {
+if($includes=opendir($dir.'includes/')) {
     while(($file = readdir($includes)) !== false) {
         if((substr($file,0,4) == 'adm_') && substr($file,-4) == '.php') {
                 include_once $dir.'includes/'.$file;
@@ -60,7 +60,8 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
 
 } else {
 	$page = $_REQUEST['p'];
-    if (!$adminpages[$page] || !function_exists('admin_'.$page)) {
+	$funcname = 'admin_'.$page;
+    if (!$page || !$adminpages[$page] || !function_exists($funcname)) {
         $template->set_filenames(array(
             'body' => 'admin/admin_home.tpl',
         ));
@@ -69,6 +70,7 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
 		$template->set_filenames(array(
 			'body' => 'admin/'.$adminpages[$page]['template_file'],
 		));
+		$funcname($template);
 	}
     $template->set_filenames(array(
         'sidebar' => 'admin/admin_sidebar.tpl',
@@ -77,7 +79,7 @@ if (!$_SESSION['admin']['username'] || !$_SESSION['admin']['authed']) {
     foreach ($adminpages as $funcname => $properties) {
         $template->assign_block_vars('admin_navi',array(
             'HREF' => 'admin.php?p='.urlencode($funcname),
-            'TEXT' => $properties['name'] ? $properties['name'] : ucwords(str_replace('_', ' ', $funcname));
+            'TEXT' => $properties['name'] ? $properties['name'] : ucwords(str_replace('_', ' ', $funcname)),
         ));
 	}
 	$template->pparse('sidebar');

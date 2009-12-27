@@ -3,13 +3,16 @@ if (!$safe) {
     exit;
 }
 
-$adminpages['edit_config']['file'] = 'admin_econfig.tpl';
+$adminpages['edit_config'] = array(
+	'template_file' => 'admin_econfig.tpl',
+	'name' => 'Edit Configuration'
+);
 
 function admin_edit_config(&$template) {
     $template->assign_vars(array(
         'RESULT' => 'You can edit the configuration of this DDL Script below.'
     ));
-    if (isset($_POST['sitename'])) {
+    if ($_POST) {
         $error = false;
         foreach ($_POST as $key => $val) {
             if ($val[1] == 'string') {

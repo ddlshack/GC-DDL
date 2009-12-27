@@ -63,7 +63,7 @@ if (mysql_num_rows($getconfig) > 0) {
 
 // Now we include all files in the includes/ directory that starts
 // with fn_ and ends with .php
-if(opendir($dir.'includes/')) {
+if($includes=opendir($dir.'includes/')) {
     while(($file = readdir($includes)) !== false) {
         if((substr($file,0,6) == 'gcddl_' || substr($file,0,6) == 'tmplt_') && substr($file,-4) == '.php') {
                 include $dir.'includes/'.$file;
