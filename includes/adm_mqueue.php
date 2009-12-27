@@ -3,7 +3,11 @@ if (!$safe) {
     exit;
 }
 
-$adminpages['manage_queue']['file'] = 'admin_mqueue.tpl';
+$adminpages['manage_queue'] = array(
+	'template_file' => 'admin_mqueue.tpl',
+	'name' => 'Manage Queue (Manual)',
+);
+
 
 function admin_manage_queue(&$template) {
 	
@@ -18,21 +22,30 @@ function admin_manage_queue(&$template) {
 		if (isset($_POST['action'][0])) {
 			$i = 0;
 			foreach ($_POST['action'] as $dl) {
-				$getinfo = mysql_query('SELECT * FROM gcddl_queued WHERE id = "'.intval($dl).'"');
+				$getinfo = mysql_query('SELECT * FROM gcddl_queue WHERE id = "'.intval($dl).'"');
 				if (mysql_num_rows($getinfo) == 1) {
 					$dli = mysql_fetch_assoc($getifo);
-					$insert = mysql_query('INSERT INTO gcddl_downloads (title,url,sid,cat,date) VALUES ("'.$dli['title'].'", "'.$dli['url'].'", "'.$dli['sid'].'", "'.$dli['cat'].'", "'.$dli['date'].'")');
-					$delete = mysql_query('DELETE FROM gcddl_queued WHERE id = "'.$dli['id'].'"');
-					if ($insert && $delete) {
-						$i++;
-					}
+					mysql_query('INSERT INTO gcddl_downloads (title,url,sid,cat,date) VALUES ("'.$dli['title'].'", "'.$dli['url'].'", "'.$dli['sid'].'", "'.$dli['cat'].'", "'.$dli['date'].'")');
+					mysql_query('DELETE FROM gcddl_queue WHERE id = "'.$dli['id'].'"');
+					$i++;
 				}
 			}
 		}
-		result($template,'RESULT','A total of ' . $i . ' downloads have been added', '#0F0');
+		result($template,'RESULT','A total of ' . $i . ' downloads have been added to the downloads table.', '#0F0');
 	}
 	
-	$getqueue = mysql_query('SELECT * FROM gcddl_queued ORDER BY id DESC LIMIT 200');
+	if (isset($_POST['delete'])) {
+		if (isset($_POST['action'][0])) {
+			$i = 0;
+			foreach ($_POST['action'] as $dl) {
+				mysql_query('DELETE FROM gcddl_queue WHERE id = "'.intval($dl).'"');
+				$i++;
+			}
+		}
+		result($template,'RESULT','A total of ' . $i . ' downloads have been deleted.', '#0F0');
+	}
+	
+	$getqueue = mysql_query('SELECT * FROM gcddl_queue ORDER BY id DESC LIMIT 200');
 	if (mysql_num_rows($getqueue) > 0) { 
 		$lastsid = null;
 		while($qdl = mysql_fetch_assoc($getqueue)) {

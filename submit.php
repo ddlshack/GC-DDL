@@ -46,18 +46,18 @@ if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['typ
             if (($urlmismatch == false && $insertingerror == false && $founddupes == false) && (!empty($title[$i]) && !empty($url[$i]) && !empty($type[$i])) && isset($catss[$type[$i]])) {
                 if (murl($surl,false) == murl($url[$i],false)) {
                     if ($SETTINGS['allow_dupes'] == 1) {
-						if (!mysql_query('INSERT INTO gcddl_queued (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.mysql_real_escape_string($catss[$type[$i]]).'","'.time().'")')) {
+						if (!mysql_query('INSERT INTO gcddl_queue (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.mysql_real_escape_string($catss[$type[$i]]).'","'.time().'")')) {
 							$insertingerror = true;
 						}
                     } else {
                         $timelimit = mktime(0, 0, 0, date('m') , date('d') - ($SETTINGS['allow_dupes_every_when']*7), date('Y'));
-						$dupesexist1 = mysql_query('SELECT id FROM gcddl_queued WHERE url = "'.mysql_real_escape_string($url[$i]).'" and date > "'.$timelimit.'" limit 1');
+						$dupesexist1 = mysql_query('SELECT id FROM gcddl_queue WHERE url = "'.mysql_real_escape_string($url[$i]).'" and date > "'.$timelimit.'" limit 1');
 						$dupesexist2 = mysql_query('SELECT id FROM gcddl_downloads WHERE url = "'.mysql_real_escape_string($url[$i]).'" and date > "'.$timelimit.'" limit 1');
 						if (!$dupesexist1 || !$dupesexist2) {
 							$insertingerror = true;
 						}
                         if (mysql_num_rows($dupesexist1) == 0 && mysql_num_rows($dupesexist2) == 0) {
-                            mysql_query('INSERT INTO gcddl_queued (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
+                            mysql_query('INSERT INTO gcddl_queue (title,url,sid,cat,date) VALUES ("'.mysql_real_escape_string($title[$i]).'","'.mysql_real_escape_string($url[$i]).'","'.$siteid.'","'.$catss[$type[$i]].'","'.time().'")') or die(mysql_error());
                         } else {
                             $founddupes = true;
                             result($template,'RESULT','The administrator has disabled the submission of duplicate downloads.','#F00');
