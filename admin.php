@@ -1,6 +1,5 @@
 <?php
 require_once 'funcs.php';
-$includes = opendir($dir.'includes/');
 if($includes) {
     while(($file = readdir($includes)) !== false) {
         if((substr($file,0,4) == 'adm_') && substr($file,-4) == '.php') {
@@ -16,10 +15,10 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => $SETTINGS['sitename'].' - Admin',
-    'SLOGAN' => $SETTINGS['slogan'],
-    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
+    'SITENAME' => stripslashes($SETTINGS['sitename']) . ' - Admin',
+    'SLOGAN' => stripslashes($SETTINGS['slogan']),
+    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
 ));
 
 $_SESSION['tries'] = (isset($_SESSION['tries']) && $_SESSION['tries'] != 0) ? $_SESSION['tries'] : 0;
@@ -33,6 +32,7 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
     $template->assign_vars(array(
         'MSG' => 'Use the form below to log into the administration panel.'
     ));
+	print_r($_POST);
     if (isset($_POST['submit'])) {
         if ($_SESSION['tries'] < $SETTINGS['login_attempts']) {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {
@@ -73,14 +73,22 @@ if (!isset($_SESSION['username']) || empty($_SESSION['username']) || $_SESSION['
         ));
         admin_home($template);
     } else {
-        if (function_exists('admin_'.htmlentities(addslashes($_REQUEST['p'])))) {
-            $pagefileaaa = htmlentities(addslashes($_REQUEST['p']));            
+        if (function_exists('admin_'.addslashes($_REQUEST['p']))) {
+            $pagefileaaa = addslashes($_REQUEST['p']);
             if(isset($adminpages[$pagefileaaa])){
-                $template->set_filenames(array(
-                    'body' => 'admin/'.$adminpages[$pagefileaaa]['file'],
-                ));
-                $funcname='admin_'.$pagefileaaa
-                "admin_{$pagefileaaa}"($template);
+                if (function_exists($funcname) == true) {
+					$template->set_filenames(array(
+						'body' => 'admin/'.$adminpages[$pagefileaaa]['file'],
+					));
+					$funcname = 'admin_'.$pagefileaaa;
+				}
+				else
+				{
+					$template->set_filenames(array(
+						'body' => 'admin/admin_home.tpl',
+					));
+					admin_home($template);
+				}
             } else {
                 $template->set_filenames(array(
                     'body' => 'admin/admin_home.tpl',

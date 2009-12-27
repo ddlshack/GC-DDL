@@ -7,7 +7,7 @@ class Modules {
 		if(!array_key_exists($name, $this->modules)) {
 			eval("\$handle = new gcddl_$name();");
 			$this->modules[$name]=array(
-				'handle' => $handle;
+				'handle' => $handle
 			);
 		}
 	}

@@ -9,13 +9,13 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => $SETTINGS['sitename'] . ' - Submit',
-    'SLOGAN' => $SETTINGS['slogan'],
-    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
+    'SITENAME' => stripslashes($SETTINGS['sitename']) . '- Submit',
+    'SLOGAN' => stripslashes($SETTINGS['slogan']),
+    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
 ));
 
-$categories = mysql_query('select id,cat_name,cat_slug from gc_ddl_categories');
+$categories = mysql_query('SELECT id,cat_name,cat_slug FROM gcddl_categories');
 while ($cat1 = mysql_fetch_assoc($categories)) {
     $cats[$cat1['id']][0] = $cat1['cat_name'];
     $cats[$cat1['id']][1] = $cat1['cat_slug'];
@@ -74,7 +74,7 @@ if (!empty($_POST['title'][0]) && !empty($_POST['url'][0]) && !empty($_POST['typ
             }
         }
         if ($insertingerror == false && $founddupes == false && $urlmismatch == false) {
-            mysql_query('update gc_ddl_sites set lastsub = "'.time().'" where id = "'.$siteid.'"');
+            mysql_query('UPDATE gcddl_sites SET lastsub = "'.time().'" WHERE id = "'.$siteid.'"');
             result($template,'RESULT','Your downloads have been accepted into the queue.','#0F0');
         }
     } else {

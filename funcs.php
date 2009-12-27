@@ -24,24 +24,31 @@ if(get_magic_quotes_gpc()) {
 	stripslashes_deep($_GET);
 	stripslashes_deep($_REQUEST);
 	stripslashes_deep($_COOKIE);
+	stripslashes_deep($_SESSION);
 }
 
 
 // Include config file for mysql
 $dir = dirname(__FILE__).'/';
-if(file_exists($dir.'config.php') && $installed==true) {
+if(file_exists($dir.'config.php')) {
     include $dir.'config.php';
+	if ($installed != true) {
+		header("Location: install/");
+		echo '<a href"install">Click here to start the installation.</a>';
+		die;
+	}
 } else {
     header("Location: install/");
-    die;
+    echo '<a href"install">Click here to start the installation.</a>';
+	die;
 }
 
-mysql_connect($db[0],$db[1],$db[2] or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
+mysql_connect($db[0],$db[1],$db[2]) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
 mysql_select_db($db[3]) or trigger_error('MySQL Error: '.mysql_error(), E_USER_ERROR);
 
 // We now get all of the config stuff... and put them into
 // a variable
-$getconfig = mysql_query('SELECT name,value FROM gc_ddl_config');
+$getconfig = mysql_query('SELECT name,value FROM gcddl_config');
 if (mysql_num_rows($getconfig) > 0) {
     while ($cfg = mysql_fetch_assoc($getconfig)) {
         $SETTINGS[$cfg['name']] = unserialize($cfg['value']);
@@ -54,7 +61,8 @@ if (mysql_num_rows($getconfig) > 0) {
 
 // Now we include all files in the includes/ directory that starts
 // with fn_ and ends with .php
-if(opendir($dir.'includes/')) {
+$includes = opendir($dir.'includes/');
+if($includes) {
     while(($file = readdir($includes)) !== false) {
         if((substr($file,0,6) == 'gcddl_' || substr($file,0,6) == 'tmplt_') && substr($file,-4) == '.php') {
                 include $dir.'includes/'.$file;
@@ -72,9 +80,9 @@ function error_handler($errno, $errstr, $errfile, $errline) {
 	global $SETTINGS;
 		
 	if($SETTINGS['debug_mode']==true) {
-		printf("<br />\n<b>%s</b>: %s in <b>%s</b> on line <b>%d</b><br /><br />\n", $errors, $errstr, $errfile, $errline);
+		printf("<br />\n<b>Error</b>: %s in <b>%s</b> on line <b>%d</b><br /><br />\n", $errstr, $errfile, $errline);
 	} else {
-		error_log(sprintf("PHP %s:  %s in %s on line %d", $errors, $errstr, $errfile, $errline));
+		error_log(sprintf("PHP Error:  %s in %s on line %d", $errstr, $errfile, $errline));
 	}
 }
 set_error_handler('error_handler');

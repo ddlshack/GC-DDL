@@ -7,7 +7,7 @@ $adminpages['manage_queue']['file'] = 'admin_mqueue.tpl';
 
 function admin_manage_queue(&$template) {
 	
-	$categories = mysql_query('SELECT id,cat_name,cat_slug FROM gc_ddl_categories');
+	$categories = mysql_query('SELECT id,cat_name,cat_slug FROM gcddl_categories');
 	while ($cat1 = mysql_fetch_assoc($categories)) {
 		$cats[$cat1['id']][0] = $cat1['cat_name'];
 		$cats[$cat1['id']][1] = $cat1['cat_slug'];
@@ -18,11 +18,11 @@ function admin_manage_queue(&$template) {
 		if (isset($_POST['action'][0])) {
 			$i = 0;
 			foreach ($_POST['action'] as $dl) {
-				$getinfo = mysql_query('SELECT * FROM gc_ddl_queued WHERE id = "'.intval($dl).'"');
+				$getinfo = mysql_query('SELECT * FROM gcddl_queued WHERE id = "'.intval($dl).'"');
 				if (mysql_num_rows($getinfo) == 1) {
 					$dli = mysql_fetch_assoc($getifo);
-					$insert = mysql_query('INSERT INTO gc_ddl_downloads (title,url,sid,cat,date) VALUES ("'.$dli['title'].'", "'.$dli['url'].'", "'.$dli['sid'].'", "'.$dli['cat'].'", "'.$dli['date'].'")');
-					$delete = mysql_query('DELETE FROM gc_ddl_queued WHERE id = "'.$dli['id'].'"');
+					$insert = mysql_query('INSERT INTO gcddl_downloads (title,url,sid,cat,date) VALUES ("'.$dli['title'].'", "'.$dli['url'].'", "'.$dli['sid'].'", "'.$dli['cat'].'", "'.$dli['date'].'")');
+					$delete = mysql_query('DELETE FROM gcddl_queued WHERE id = "'.$dli['id'].'"');
 					if ($insert && $delete) {
 						$i++;
 					}
@@ -32,12 +32,12 @@ function admin_manage_queue(&$template) {
 		result($template,'RESULT','A total of ' . $i . ' downloads have been added', '#0F0');
 	}
 	
-	$getqueue = mysql_query('SELECT * FROM gc_ddl_queued ORDER BY id DESC LIMIT 200');
+	$getqueue = mysql_query('SELECT * FROM gcddl_queued ORDER BY id DESC LIMIT 200');
 	if (mysql_num_rows($getqueue) > 0) { 
 		$lastsid = null;
 		while($qdl = mysql_fetch_assoc($getqueue)) {
 			if ($lastsid == null || $lastsid != $qdl['sid']) {
-				$getsiteinfo = mysql_query('SELECT id,sname,surl FROM gc_ddl_sites WHERE id = "'.$qdl['sid'].'"') or die(mysql_error());
+				$getsiteinfo = mysql_query('SELECT id,sname,surl FROM gcddl_sites WHERE id = "'.$qdl['sid'].'"') or die(mysql_error());
 				$siteinfo = mysql_fetch_assoc($getsiteinfo);
 				$lastsid = $qdl['sid'];
 				$template->assign_block_vars('queued_downloads', array(

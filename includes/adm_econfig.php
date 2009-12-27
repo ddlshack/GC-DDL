@@ -13,17 +13,17 @@ function admin_edit_config(&$template) {
         $error = false;
         foreach ($_POST as $key => $val) {
             if ($val[1] == 'string') {
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
+                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             } elseif ($val[1] == 'integer') {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
+                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             } else {
                 $val[0] = intval($val[0]);
-                if(!mysql_query('UPDATE gc_ddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
+                if(!mysql_query('UPDATE gcddl_config SET value = "'.mysql_real_escape_string(serialize($val[0])).'" WHERE name = "'. mysql_real_escape_string($key) .'"')) {
                     $error = true;
                 }
             }
@@ -39,7 +39,7 @@ function admin_edit_config(&$template) {
             ));
         }
     }
-    $getconfigs = mysql_query('SELECT * FROM gc_ddl_config');
+    $getconfigs = mysql_query('SELECT * FROM gcddl_config');
     if (mysql_num_rows($getconfigs) > 0) {
         while ($cfgr = mysql_fetch_assoc($getconfigs)) {
             $template->assign_block_vars('cfgtbl', array(

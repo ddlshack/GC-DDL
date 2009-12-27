@@ -11,12 +11,12 @@ function admin_edit_categories(&$template) {
     ));
     
     if (isset($_POST['acsb'])) {
-        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE cat_slug LIKE "'.mysql_real_escape_string($_POST['acs']).'" OR cat_name LIKE "'.mysql_real_escape_string($_POST['acfn']).'" LIMIT 1');
+        $exists = mysql_query('SELECT * FROM gcddl_categories WHERE cat_slug LIKE "'.mysql_real_escape_string($_POST['acs']).'" OR cat_name LIKE "'.mysql_real_escape_string($_POST['acfn']).'" LIMIT 1');
         if (mysql_num_rows($exists) == 0) {
             $cati = mysql_fetch_assoc($exists);
             if ($_POST['acfn'] == strip_tags($_POST['acfn']) && $_POST['acs'] == strip_tags($_POST['acs'])) {
                 $error = false;
-                if (!mysql_query('INSERT INTO gc_ddl_categories (cat_slug,cat_name) VALUES ("'.mysql_real_escape_string($_POST['acs']).'","'.mysql_real_escape_string($_POST['acfn']).'")')) {
+                if (!mysql_query('INSERT INTO gcddl_categories (cat_slug,cat_name) VALUES ("'.mysql_real_escape_string($_POST['acs']).'","'.mysql_real_escape_string($_POST['acfn']).'")')) {
 					$error = true;
 				}
 				if ($error == false) {
@@ -48,11 +48,11 @@ function admin_edit_categories(&$template) {
     }
     
     if (isset($_GET['delete'])) {
-        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE id="'.intval($_GET['delete']).'" LIMIT 1');
+        $exists = mysql_query('SELECT * FROM gcddl_categories WHERE id="'.intval($_GET['delete']).'" LIMIT 1');
         if (mysql_num_rows($exists) == 1) {
             $error = false;
-            if (!mysql_query('DELETE FROM gc_ddl_categories WERE id = "'.$_GET['delete'].'"') || 
-			!mysql_query('DELETE FROM gc_ddl_downloads WHERE cat = "'.$_GET['delete'].'"')) {
+            if (!mysql_query('DELETE FROM gcddl_categories WERE id = "'.$_GET['delete'].'"') || 
+			!mysql_query('DELETE FROM gcddl_downloads WHERE cat = "'.$_GET['delete'].'"')) {
 				$error = true;
 			}
 			if ($error == false)
@@ -78,7 +78,7 @@ function admin_edit_categories(&$template) {
     }
     
     if (isset($_GET['edit'])) {
-        $exists = mysql_query('SELECT * FROM gc_ddl_categories WHERE id="'.($_GET['edit']+1-1).'" LIMIT 2');
+        $exists = mysql_query('SELECT * FROM gcddl_categories WHERE id="'.($_GET['edit']+1-1).'" LIMIT 2');
         if (mysql_num_rows($exists) == 1) {
             $cati = mysql_fetch_assoc($exists);
             if (!isset($_POST['ecsb'])) {
@@ -91,7 +91,7 @@ function admin_edit_categories(&$template) {
             {
                 if ($_POST['ecfn'] == strip_tags($_POST['ecfn']) && $_POST['ecs'] == strip_tags($_POST['ecs'])) {
                     $error = false;
-                    if (!mysql_query('UPDATE gc_ddl_categories SET cat_slug = "'.strtolower(htmlentities(addslashes($_POST['ecs']))).'", cat_name = "'.htmlentities(addslashes($_POST['ecfn'])).'" WHERE id="'.$_GET['edit'].'"')) {
+                    if (!mysql_query('UPDATE gcddl_categories SET cat_slug = "'.strtolower(addslashes($_POST['ecs'])).'", cat_name = "'.addslashes($_POST['ecfn']).'" WHERE id="'.$_GET['edit'].'"')) {
 						$error = true;
 					}
                     if ($error == false) {
@@ -126,7 +126,7 @@ function admin_edit_categories(&$template) {
     
     
     
-    $getcats = mysql_query('SELECT * FROM gc_ddl_categories');
+    $getcats = mysql_query('SELECT * FROM gcddl_categories');
     if (mysql_num_rows($getcats) > 0) {
         while ($cat = mysql_fetch_assoc($getcats)) {
             $template->assign_block_vars('cats', array(
