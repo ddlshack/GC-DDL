@@ -24,14 +24,14 @@ function admin_manage_queue(&$template) {
 			foreach ($_POST['action'] as $dl) {
 				$getinfo = mysql_query('SELECT * FROM gcddl_queue WHERE id = "'.intval($dl).'"');
 				if (mysql_num_rows($getinfo) == 1) {
-					$dli = mysql_fetch_assoc($getifo);
+					$dli = mysql_fetch_assoc($getinfo);
 					mysql_query('INSERT INTO gcddl_downloads (title,url,sid,cat,date) VALUES ("'.$dli['title'].'", "'.$dli['url'].'", "'.$dli['sid'].'", "'.$dli['cat'].'", "'.$dli['date'].'")');
 					mysql_query('DELETE FROM gcddl_queue WHERE id = "'.$dli['id'].'"');
 					$i++;
 				}
 			}
+			result($template,'RESULT','A total of ' . $i . ' downloads have been added to the downloads table.', '#0F0');
 		}
-		result($template,'RESULT','A total of ' . $i . ' downloads have been added to the downloads table.', '#0F0');
 	}
 	
 	if (isset($_POST['delete'])) {
@@ -41,8 +41,8 @@ function admin_manage_queue(&$template) {
 				mysql_query('DELETE FROM gcddl_queue WHERE id = "'.intval($dl).'"');
 				$i++;
 			}
+			result($template,'RESULT','A total of ' . $i . ' downloads have been deleted.', '#0F0');
 		}
-		result($template,'RESULT','A total of ' . $i . ' downloads have been deleted.', '#0F0');
 	}
 	
 	$getqueue = mysql_query('SELECT * FROM gcddl_queue ORDER BY id DESC LIMIT 200');
@@ -60,7 +60,8 @@ function admin_manage_queue(&$template) {
 					'SURL' => stripslashes($siteinfo['surl']),
 					'SNAME' => stripslashes($siteinfo['sname']),
 					'SID' => $qdl['sid'],
-					'SELECTALL' => ' | <input type="checkbox" class="{queued_downloads.SID}" onclick="checkAll(document.getElementById(\'submit\'), \''.$qdl['sid'].'\', this.checked);" />'
+					'SELECTALL' => '<input type="checkbox" class="{queued_downloads.SID}" style="background-color: #000; color: #F00; border: 1px #F00 solid;" onclick="checkAll(document.getElementById(\'submit\'), \''.$qdl['sid'].'\', this.checked);" />',
+					'ID' => $qdl['id']
 				));
 			}
 			else
@@ -71,7 +72,8 @@ function admin_manage_queue(&$template) {
 					'TITLE' => stripslashes($qdl['title']),
 					'SURL' => '#',
 					'SNAME' => '^',
-					'SID' => $lastsid
+					'SID' => $lastsid,
+					'ID' => $qdl['id']
 				));
 			}
 		}

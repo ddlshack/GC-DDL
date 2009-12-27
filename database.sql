@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2009-12-27 14:16:03
+Date: 2009-12-27 16:02:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,24 +99,6 @@ CREATE TABLE `gcddl_queue` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `gcddl_queue`
--- ----------------------------
-DROP TABLE IF EXISTS `gcddl_queue`;
-CREATE TABLE `gcddl_queue` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL,
-  `url` text NOT NULL,
-  `sid` int(11) NOT NULL,
-  `cat` int(11) NOT NULL,
-  `date` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of gcddl_queued
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `gcddl_sites`
 -- ----------------------------
 DROP TABLE IF EXISTS `gcddl_sites`;
@@ -128,11 +110,12 @@ CREATE TABLE `gcddl_sites` (
   `firstsub` int(11) NOT NULL,
   `lastsub` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of gcddl_sites
 -- ----------------------------
+INSERT INTO `gcddl_sites` VALUES ('1', 'Test Site', 'http://test.ca/', 'admin@test.ca', '1261944572', '1261944572');
 
 -- ----------------------------
 -- Table structure for `gcddl_users`
