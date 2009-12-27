@@ -1,4 +1,5 @@
 <?php
+#test commit
 require_once 'funcs.php';
 
 $template->set_filenames(array(
