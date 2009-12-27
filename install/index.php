@@ -72,7 +72,7 @@ FILE;
 		} else {
 			echo '<form action="?step=1" method="post">
 				Server:
-				<input type="text" name="server" />
+				<input type="text" name="server" value="localhost" />
 				<br />
 				
 				Username:
@@ -90,5 +90,18 @@ FILE;
 				<input type="submit" value="Configure Mysql" />
 			</form>';
 		}
+		break;
+		
+	case 2:
+		// Create mysql structure
+		require_once "../config.php";
+		mysql_connect($db['server'], $db['username'], $db['password']);
+		mysql_select_db($db['database']);
+		
+		$fp=fopen('../database.sql', 'r');
+		mysql_query(fgets($fp, filesize('../database.sql')));
+		fclose($fp);
+		
+		echo 'Database structure inserted<br /><a href="?step=3">Continue $raquo;</a>';
 		break;
 }
