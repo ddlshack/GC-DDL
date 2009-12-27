@@ -9,10 +9,10 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => stripslashes($SETTINGS['sitename']),
-    'SLOGAN' => stripslashes($SETTINGS['slogan']),
-    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
+    'SITENAME' => $SETTINGS['sitename'],
+    'SLOGAN' => $SETTINGS['slogan'],
+    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
 
 
@@ -30,7 +30,7 @@ if (mysql_num_rows($getdownloads)) {
         $lastid = $dl['id'];
         $template->assign_block_vars('lstdls', array(
             'TYPE' => $cats[$dl['cat']][0],
-            'TITLE' => stripslashes($dl['title']),
+            'TITLE' => $dl['title'],
             'URL' => '#',
             'VIEWS' => $dl['views'],
             'DATE' => date($SETTINGS['date_format'], $dl['date'])
