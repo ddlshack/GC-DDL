@@ -4,9 +4,9 @@ if (!$safe) {
 }
 $installed = true;
 $db = array(
-    'localhost',
-    'root',
-    '',
-    'gc_ddl'
+    'server' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'gc_ddl'
 );
 ?>
