@@ -50,7 +50,7 @@ function admin_edit_config(&$template) {
                 'NAME' => $cfgr['name'],
                 'DESC' => $cfgr['desc'],
             ));
-            if ($cfgr['possible'] == null) {
+            if ($cfgr['possible']) {
                 $template->assign_block_vars('cfgtbl.string', array(
                     'VALUE' => unserialize($cfgr['value']),
                     'TYPE' => 'string'
