@@ -30,7 +30,7 @@ if (mysql_num_rows($getdownloads)) {
         $lastid = $dl['id'];
         $template->assign_block_vars('lstdls', array(
             'TYPE' => $cats[$dl['cat']][0],
-            'TITLE' => stripslashes($dl['title']),
+            'TITLE' => $dl['title'],
             'URL' => '#',
             'VIEWS' => $dl['views'],
             'DATE' => date($SETTINGS['date_format'], $dl['date'])
