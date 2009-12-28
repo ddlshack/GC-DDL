@@ -15,11 +15,11 @@ $template->assign_vars(array(
     'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
 
-$categories = mysql_query('SELECT id,cat_name,cat_slug FROM gcddl_categories');
+$categories = mysql_query('SELECT id,name,slug FROM gcddl_categories');
 while ($cat1 = mysql_fetch_assoc($categories)) {
-    $cats[$cat1['id']][0] = $cat1['cat_name'];
-    $cats[$cat1['id']][1] = $cat1['cat_slug'];
-    $catss[$cat1['cat_slug']] = $cat1['id'];
+    $cats[$cat1['id']][0] = $cat1['name'];
+    $cats[$cat1['id']][1] = $cat1['slug'];
+    $catss[$cat1['slug']] = $cat1['id'];
 }
 
 result($template,'RESULT','Please be sure to follow the rules... or it might end up in your site being blacklisted.',null);
