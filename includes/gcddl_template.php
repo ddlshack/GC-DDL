@@ -437,7 +437,6 @@ class Template {
 		// Append the variable reference.
 		$varref .= '[\'' . $varname . '\']';
 
-		//$varref = '\' . ( ( isset(' . $varref . ') ) ? ' . $varref . ' : \'\' ) . \'';
 		$varref = '\' . ( ( isset(' . $varref . ') ) ? '.$filter.'(' . $varref . ') : \'\' ) . \'';
 
 		return $varref;
