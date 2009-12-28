@@ -9,11 +9,12 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => stripslashes($SETTINGS['sitename']) . ' - Submit',
-    'SLOGAN' => stripslashes($SETTINGS['slogan']),
-    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
+    'SITENAME' => $SETTINGS['sitename'] . ' - Submit',
+    'SLOGAN' => $SETTINGS['slogan'],
+    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
+
 $categories = mysql_query('SELECT id,cat_name,cat_slug FROM gcddl_categories');
 while ($cat1 = mysql_fetch_assoc($categories)) {
     $cats[$cat1['id']][0] = $cat1['cat_name'];
