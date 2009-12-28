@@ -9,10 +9,10 @@ $template->set_filenames(array(
 ));
 
 $template->assign_vars(array(
-    'SITENAME' => stripslashes($SETTINGS['sitename']),
-    'SLOGAN' => stripslashes($SETTINGS['slogan']),
-    'DESC' => stripslashes($SETTINGS['description']).' - Powered by gc-DDL. For more information visit http://global-config.com/',
-    'KEYW' => stripslashes($SETTINGS['keywords']).',global,config,open,source',
+    'SITENAME' => $SETTINGS['sitename'],
+    'SLOGAN' => $SETTINGS['slogan'],
+    'DESC' => $SETTINGS['description'].' - Powered by gc-DDL. For more information visit http://global-config.com/',
+    'KEYW' => $SETTINGS['keywords'].',global,config,open,source',
 ));
 
 
