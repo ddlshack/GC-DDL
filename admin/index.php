@@ -2,7 +2,7 @@
 require_once 'funcs.php';
 if($includes=opendir($dir.'includes/')) {
     while(($file = readdir($includes)) !== false) {
-        if((substr($file,0,4) == 'adm_') && substr($file,-4) == '.php') {
+        if((substr($file,0,4) == 'gcddl_') && substr($file,-4) == '.php') {
                 include_once $dir.'includes/'.$file;
         }
     }

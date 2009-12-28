@@ -292,19 +292,20 @@ class Template {
 
 		// This one will handle varrefs WITH namespaces
 		$varrefs = array();
-		preg_match_all('#\{(([a-z0-9\-_]+?\.)+?)([a-z0-9\-_]+?)\}#is', $code, $varrefs);
+		preg_match_all('#\{(([a-z0-9\-_]+?\.)+?)([a-z0-9\-_]+?)(\|([a-z0-9\-_]+?))?\}#is', $code, $varrefs);
 		$varcount = sizeof($varrefs[1]);
 		for ($i = 0; $i < $varcount; $i++)
 		{
 			$namespace = $varrefs[1][$i];
 			$varname = $varrefs[3][$i];
-			$new = $this->generate_block_varref($namespace, $varname);
+			$filter = $varrefs[5][$i];
+			$new = $this->generate_block_varref($namespace, $varname, $filter);
 
 			$code = str_replace($varrefs[0][$i], $new, $code);
 		}
 
 		// This will handle the remaining root-level varrefs
-		$code = preg_replace('#\{([a-z0-9\-_]*?)\}#is', '\' . ( ( isset($this->_tpldata[\'.\'][0][\'\1\']) ) ? $this->_tpldata[\'.\'][0][\'\1\'] : \'\' ) . \'', $code);
+		$code = preg_replace('#\{([a-z0-9\-_]*?)(\|([a-z0-9\-_]+?))?\}#is', '\' . ( ( isset($this->_tpldata[\'.\'][0][\'\1\']) ) ? \3($this->_tpldata[\'.\'][0][\'\1\']) : \'\' ) . \'', $code);
 
 		// Break it up into lines.
 		$code_lines = explode("\n", $code);
@@ -424,7 +425,7 @@ class Template {
 	 * It's ready to be inserted into an "echo" line in one of the templates.
 	 * NOTE: expects a trailing "." on the namespace.
 	 */
-	function generate_block_varref($namespace, $varname)
+	function generate_block_varref($namespace, $varname, $filter='')
 	{
 		// Strip the trailing period.
 		$namespace = substr($namespace, 0, strlen($namespace) - 1);
@@ -436,7 +437,8 @@ class Template {
 		// Append the variable reference.
 		$varref .= '[\'' . $varname . '\']';
 
-		$varref = '\' . ( ( isset(' . $varref . ') ) ? ' . $varref . ' : \'\' ) . \'';
+		//$varref = '\' . ( ( isset(' . $varref . ') ) ? ' . $varref . ' : \'\' ) . \'';
+		$varref = '\' . ( ( isset(' . $varref . ') ) ? '.$filter.'(' . $varref . ') : \'\' ) . \'';
 
 		return $varref;
 
